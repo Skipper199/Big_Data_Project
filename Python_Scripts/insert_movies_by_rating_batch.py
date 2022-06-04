@@ -18,18 +18,28 @@ row = session.execute("select release_version from system.local").one()
 
 # Read Files
 rating_data = pd.read_csv(
-    "/home/leotsant/Downloads/MovieLens_Dataset/rating.csv")
+    "/home/leotsant/Downloads/MovieLens_Dataset/rating_test.csv")
 
 rating_data['timestamp'] = pd.to_datetime(rating_data['timestamp'])
 
-query = "INSERT INTO movies_by_rating (movie_id, rating, user_id, timestamp) VALUES (?,?,?,?) IF NOT EXISTS"
-prepared = session.prepare(query)
+insert_user = SimpleStatement(
+    "INSERT INTO movies_by_rating (movie_id, rating, user_id, timestamp) VALUES (%s,%s,%s,%s)")
+batch = BatchStatement(consistency_level=ConsistencyLevel.QUORUM)
 
 j = 0
+i = 0
 while j < len(rating_data.movieId):
-    session.execute_async(
-        prepared, (rating_data.movieId[j], rating_data.rating[j], rating_data.userId[j], rating_data.timestamp[j]))
-    j += 1
+    i += 1
+    while (i % 100 != 0):
+        batch.add(insert_user, (rating_data.movieId[i-1], rating_data.rating[i-1],
+                  rating_data.userId[i-1], rating_data.timestamp[i-1]))
+        i += 1
+        j += 1
+        if j == len(rating_data.movieId):
+            break
+    session.execute_async(batch)
+    batch.clear()
+
 
 if row:
     print("Success!")

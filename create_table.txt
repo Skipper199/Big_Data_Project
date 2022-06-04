@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS movies_by_rating;
+cd DROP TABLE IF EXISTS movies_by_rating;
 DROP TABLE IF EXISTS movies_by_keywords;
 DROP TABLE IF EXISTS movies_by_genre;
 DROP TABLE IF EXISTS movies_by_tags;
@@ -11,8 +11,9 @@ CREATE TABLE IF NOT EXISTS movies_by_rating (
 	rating float,
 	user_id int,
 	timestamp timestamp,
-	PRIMARY KEY ((rating, timestamp), movie_id)
-)WITH CLUSTERING ORDER BY (movie_id ASC);
+	date_bucket text,
+	PRIMARY KEY ((date_bucket), timestamp)
+)WITH CLUSTERING ORDER BY (timestamp ASC);
 
 CREATE TABLE IF NOT EXISTS movies_by_keywords (
 	movie_id int,

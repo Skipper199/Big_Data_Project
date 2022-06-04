@@ -1,5 +1,6 @@
 from cassandra.cluster import Cluster
 from cassandra.auth import PlainTextAuthProvider
+from cassandra import ConsistencyLevel
 import pandas as pd
 
 cloud_config = {
@@ -12,12 +13,26 @@ session = cluster.connect('big_data')
 
 row = session.execute("select release_version from system.local").one()
 
-df = pd.DataFrame(list(session.execute(
-    "SELECT count(*) FROM movies_by_rating")))
 
-print(df)
+# Read Files
+movie_data = pd.read_csv(
+    "/home/leotsant/Downloads/MovieLens_Dataset/movie_test.csv")
+tag_data = pd.read_csv(
+    "/home/leotsant/Downloads/MovieLens_Dataset/tag_test.csv")
+rating_data = pd.read_csv(
+    "/home/leotsant/Downloads/MovieLens_Dataset/rating_test.csv")
+
+
+tag_data.drop(['userId', 'timestamp'], inplace=True, axis=1)
+rating_data.drop(['userId', 'timestamp'], inplace=True, axis=1)
+
+
+movieId_with_tags = tag_data.groupby(
+    "movieId", as_index=True).transform(lambda x: ','.join(x))
+
+print(movieId_with_tags)
 
 if row:
-    print("Success")
+    print("Success!")
 else:
     print("An error occurred.")
