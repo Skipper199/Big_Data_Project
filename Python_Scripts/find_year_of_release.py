@@ -1,7 +1,7 @@
 import re
 import pandas as pd
 
-data = pd.read_csv("/home/leotsant/Downloads/MovieLens_Dataset/movie.csv")
+data = pd.read_csv("/home/leonidastsant/Downloads/MovieLens_Dataset/movie.csv")
 
 
 i = 0

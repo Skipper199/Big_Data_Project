@@ -2,7 +2,7 @@ import pandas as pd
 
 # Load Dataframe
 data = pd.read_csv(
-    "/home/leotsant/Downloads/MovieLens_Dataset/rating_test.csv")
+    "/home/leonidastsant/Downloads/MovieLens_Dataset/rating_test.csv")
 
 data.drop('userId', inplace=True, axis=1)  # Delete userId column
 

@@ -1,16 +1,10 @@
 from tracemalloc import start
 from cassandra.cluster import Cluster
-from cassandra.auth import PlainTextAuthProvider
 import pandas as pd
 import time
 
-cloud_config = {
-    'secure_connect_bundle': '/home/leotsant/Downloads/secure-connect-big-data-project-cluster.zip'
-}
-auth_provider = PlainTextAuthProvider(
-    'MyrrlmamdWZRMrQhSwUIeyNx', 'KzmZYIBZ4p0K_8RYYdldNqlA1rHs-l-LGEcG.lSSSFsqcwbR9siBZmF6jWW5C9s.Bh+zz3ZGjJvYnc,Rt-QiziY+KWul0Yr9u_mNnpUXMoynR+6TWuqvoDhcqER+SMNr')
-cluster = Cluster(cloud=cloud_config, auth_provider=auth_provider)
-session = cluster.connect('big_data')
+cluster = Cluster()
+session = cluster.connect('big_data_project')
 
 row = session.execute("select release_version from system.local").one()
 
