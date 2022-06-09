@@ -1,6 +1,5 @@
-DROP TABLE IF EXISTS movies_by_rating;
-CREATE TABLE IF NOT EXISTS movies_by_rating (
-	userId int,
+DROP TABLE IF EXISTS rating_by_timestamp;
+CREATE TABLE IF NOT EXISTS rating_by_timestamp (
 	movieId int,
 	rating float,
 	timestamp timestamp,
@@ -8,42 +7,18 @@ CREATE TABLE IF NOT EXISTS movies_by_rating (
 	PRIMARY KEY ((month_by_year), timestamp)
 )WITH CLUSTERING ORDER BY (timestamp ASC);
 
-DROP TABLE IF EXISTS movies_by_keywords;
-CREATE TABLE IF NOT EXISTS movies_by_keywords (
-	movie_id int,
-	title text,
-	year_of_release text,
-	overall_rating float,
-	PRIMARY KEY((movie_id), title)
-)WITH CLUSTERING ORDER BY (title DESC);
+DROP TABLE IF EXISTS rating_by_movie_id;
+CREATE TABLE IF NOT EXISTS rating_by_movie_id (
+	userid int,
+	movieid int,
+	rating float,
+	PRIMARY KEY ((movieid), userid, rating)
+)WITH CLUSTERING ORDER BY (userid ASC, rating DESC);
 
-DROP TABLE IF EXISTS movies_by_genre;
-CREATE TABLE IF NOT EXISTS movies_by_genre (
-	genre text,
-	movie_id int,
-	year_of_release text,
-	overall_rating float,
-	title text,
-	PRIMARY KEY((genre, movie_id), year_of_release)
-)WITH CLUSTERING ORDER BY (year_of_release DESC);
-
-DROP TABLE IF EXISTS movies_by_tags;
-CREATE TABLE IF NOT EXISTS movies_by_tags (
-	tag_id int, 
-	overall_rating float,
-	movie_id int,
-	year_of_release text,
-	title text,
-	PRIMARY KEY((tag_id), overall_rating, movie_id)
-)WITH CLUSTERING ORDER BY (overall_rating DESC, movie_id DESC);
-
-DROP TABLE IF EXISTS movie;
-CREATE TABLE IF NOT EXISTS movie (
-	movie_id int,
-	year_of_release text,
-	genre text,
-	overall_rating float,
-	title text,
-	tags text,
-	PRIMARY KEY((movie_id), year_of_release)
-)WITH CLUSTERING ORDER BY (year_of_release DESC);
+DROP TABLE IF EXISTS tag_by_movie_id;
+CREATE TABLE IF NOT EXISTS tag_by_movie_id (
+	userid int,
+	movieid int,
+	tag text,
+	PRIMARY KEY ((movieid), userid, tag)
+)WITH CLUSTERING ORDER BY (userid ASC, tag DESC);
