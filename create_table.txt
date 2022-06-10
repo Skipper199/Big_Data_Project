@@ -23,6 +23,9 @@ CREATE TABLE IF NOT EXISTS tag_by_movie_id (
 	PRIMARY KEY ((movieid), userid, tag)
 )WITH CLUSTERING ORDER BY (userid ASC, tag DESC);
 
+#################################################################
+#################### NOT IN USE #################################
+#################################################################
 DROP TABLE IF EXISTS genre_by_movie_id;
 CREATE TABLE IF NOT EXISTS genre_by_movie_id (
 	movieid int,
@@ -31,3 +34,13 @@ CREATE TABLE IF NOT EXISTS genre_by_movie_id (
 	year_of_release int,
 	PRIMARY KEY ((genre), year_of_release, movieid)
 )WITH CLUSTERING ORDER BY (year_of_release ASC, movieid ASC);
+
+DROP TABLE IF EXISTS movie;
+CREATE TABLE IF NOT EXISTS movie(
+	movieid int,
+	title text,
+	genres text,
+	year_of_release int,
+	PRIMARY KEY ((movieid), year_of_release)
+)WITH CLUSTERING ORDER BY (year_of_release ASC);
+

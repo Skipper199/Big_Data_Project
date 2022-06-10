@@ -7,12 +7,13 @@ session = cluster.connect('big_data_project')
 
 start_time = time.time()
  
+
 # In order for the query to work we have to first create an index. If index already exists than below command is not needed.
-# session.execute("CREATE CUSTOM INDEX genre_index ON big_data_project.movie (genres) USING 'org.apache.cassandra.index.sasi.SASIIndex' WITH OPTIONS = {'mode': 'CONTAINS'}") 
+# session.execute("CREATE CUSTOM INDEX title_index ON big_data_project.movie (title) USING 'org.apache.cassandra.index.sasi.SASIIndex' WITH OPTIONS = {'mode': 'CONTAINS'}")
 
-query = "SELECT * FROM movie WHERE genres LIKE '%Adventure%' "
+query = " SELECT * FROM movie WHERE title LIKE '%star%' "
 
-# Returns DataFrame object from query 1
+# Returns DataFrame object from query
 data = pd.DataFrame(list(session.execute(query))) 
 
 elapsedTime = time.time() - start_time
