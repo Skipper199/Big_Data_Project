@@ -15,7 +15,14 @@ query = "SELECT * FROM movie WHERE genres LIKE '%Adventure%' "
 # Returns DataFrame object from query 1
 data = pd.DataFrame(list(session.execute(query))) 
 
-elapsedTime = time.time() - start_time
+# Sorts data based on year of release and resets Pandas Dataframe index
+sorted_data = data.sort_values(by=['year_of_release'], ascending=True).reset_index(drop=True)
+ 
+# Reorders columns
+column_names = ["movieid", "title", "genres", "year_of_release"]
+sorted_data = sorted_data.reindex(columns=column_names)
 
-print(data)
-print(f"Elapsed time: {elapsedTime}")
+print(sorted_data)
+elapsedTime = round((time.time() - start_time), 2)
+
+print(f"Elapsed time: {elapsedTime} seconds")

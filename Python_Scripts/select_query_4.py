@@ -16,7 +16,11 @@ query = " SELECT * FROM movie WHERE title LIKE '%star%' "
 # Returns DataFrame object from query
 data = pd.DataFrame(list(session.execute(query))) 
 
-elapsedTime = time.time() - start_time
+# Reorders columns
+column_names = ["movieid", "title", "genres", "year_of_release"]
+data = data.reindex(columns=column_names)
 
 print(data)
-print(f"Elapsed time: {elapsedTime}")
+
+elapsedTime = round((time.time() - start_time), 2)
+print(f"Elapsed time: {elapsedTime} seconds")
